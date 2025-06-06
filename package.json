@@ -16,7 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^27.0.0",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.13.3",
+    "dmg-license": "^1.0.11"
   },
   "dependencies": {
     "xlsx": "^0.18.5"
@@ -47,6 +48,25 @@
     "linux": {
       "target": "AppImage",
       "icon": "icon.icns"
+    },
+    "dmg": {
+      "title": "关键字检索工具",
+      "window": {
+        "width": 500,
+        "height": 300
+      },
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
     "nsis": {
       "oneClick": false,

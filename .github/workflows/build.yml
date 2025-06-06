@@ -28,10 +28,14 @@ jobs:
         echo "macOS build starting..."
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm ci
+        npm install dmg-license --save-dev
 
     - name: Build macOS App
       run: npx electron-builder --mac
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Show dist contents
       run: ls -lah dist
