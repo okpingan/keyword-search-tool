@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关键字检索工具</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 关键字检索工具</h1>
+            <p>在Excel数据中快速检索关键字并生成结果报告</p>
+        </header>
+
+        <main>
+            <!-- 步骤1: 文件选择 -->
+            <section class="step-section" id="step1">
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2>选择Excel文件</h2>
+                </div>
+                <div class="file-selector">
+                    <button id="selectFileBtn" class="primary-btn">
+                        📁 选择Excel文件
+                    </button>
+                    <div id="fileInfo" class="file-info" style="display: none;">
+                        <span id="fileName"></span>
+                        <span id="fileStatus" class="status"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 步骤2: 选择原始数据表 -->
+            <section class="step-section" id="step2" style="display: none;">
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2>选择数据表</h2>
+                </div>
+                <div class="sheet-selector">
+                    <div class="sheet-item">
+                        <label>原始数据表:</label>
+                        <select id="originalSheetSelect">
+                            <option value="">请选择...</option>
+                        </select>
+                        <span id="originalDataInfo" class="data-info"></span>
+                    </div>
+                    <div class="sheet-note">
+                        <p>💡 程序将在所选数据表的B列中搜索关键字</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 步骤3: 输入关键字 -->
+            <section class="step-section" id="step3" style="display: none;">
+                <div class="step-header">
+                    <span class="step-number">3</span>
+                    <h2>输入关键字</h2>
+                </div>
+                <div class="keyword-input-section">
+                    <div class="input-group">
+                        <label for="keywordInput">请输入要搜索的关键字：</label>
+                        <textarea 
+                            id="keywordInput" 
+                            placeholder="请输入关键字，每行一个关键字&#10;例如：&#10;苹果&#10;香蕉&#10;橙子"
+                            rows="8"
+                        ></textarea>
+                    </div>
+                    <div class="input-tips">
+                        <h4>输入说明：</h4>
+                        <ul>
+                            <li>每行输入一个关键字</li>
+                            <li>支持中英文关键字</li>
+                            <li>程序会自动去除空行和首尾空格</li>
+                            <li>搜索方式：包含匹配（模糊匹配）</li>
+                        </ul>
+                    </div>
+                    <div class="keyword-preview">
+                        <h4>关键字预览：</h4>
+                        <div id="keywordPreview" class="keyword-preview-list">
+                            <span class="no-keywords">请输入关键字...</span>
+                        </div>
+                        <div id="keywordCount" class="keyword-count"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 步骤4: 开始检索 -->
+            <section class="step-section" id="step4" style="display: none;">
+                <div class="step-header">
+                    <span class="step-number">4</span>
+                    <h2>开始检索</h2>
+                </div>
+                <div class="search-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">检索目标：</span>
+                        <span id="searchTarget">未选择</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">关键字数量：</span>
+                        <span id="keywordCountSummary">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">检索方式：</span>
+                        <span>包含匹配（模糊匹配）</span>
+                    </div>
+                </div>
+                <div class="search-controls">
+                    <button id="startSearchBtn" class="primary-btn large-btn">
+                        🔍 开始检索
+                    </button>
+                </div>
+                <div id="progressSection" class="progress-section" style="display: none;">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div id="progressText" class="progress-text">准备中...</div>
+                </div>
+            </section>
+
+            <!-- 步骤5: 结果显示 -->
+            <section class="step-section" id="step5" style="display: none;">
+                <div class="step-header">
+                    <span class="step-number">5</span>
+                    <h2>检索结果</h2>
+                </div>
+                <div class="results-summary">
+                    <div id="resultsSummary" class="summary-stats"></div>
+                </div>
+                <div class="results-preview">
+                    <h3>结果预览 (前10条):</h3>
+                    <div id="resultsTable" class="results-table"></div>
+                </div>
+                <div class="results-actions">
+                    <button id="saveResultsBtn" class="primary-btn">
+                        💾 保存结果到Excel
+                    </button>
+                    <button id="newSearchBtn" class="secondary-btn">
+                        🔄 重新检索
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- 消息提示 -->
+        <div id="messageBox" class="message-box" style="display: none;">
+            <div id="messageContent" class="message-content"></div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{
+  "name": "keyword-search-tool",
+  "version": "1.0.0",
+  "description": "Excel关键字检索工具",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "dev": "electron . --dev"
+  },
+  "keywords": ["excel", "search", "keyword", "中文"],
+  "author": "关键字检索工具",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "build": {
+    "appId": "com.keywordsearch.app",
+    "productName": "关键字检索工具",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "renderer.js",
+      "index.html",
+      "style.css",
+      "icon.svg",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity",
+      "icon": "icon.svg"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "icon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "关键字检索工具"
+    }
+  }
+}
