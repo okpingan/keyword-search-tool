@@ -10,50 +10,53 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
-    
+
     - name: Install dependencies
       run: npm install
-    
+
     - name: Build for Windows
       if: matrix.os == 'windows-latest'
-      run: npm run build-win
-    
+      run: npx electron-builder --win
+
     - name: Build for macOS
       if: matrix.os == 'macos-latest'
-      run: npm run build-mac
-    
+      run: npx electron-builder --mac
+
     - name: Build for Linux
       if: matrix.os == 'ubuntu-latest'
-      run: npm run build-linux
-    
+      run: npx electron-builder --linux
+
+    - name: Show dist contents
+      run: ls -lah dist
+
     - name: Upload Windows artifacts
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
         name: windows-build
         path: dist/*.exe
-    
+
     - name: Upload macOS artifacts
       if: matrix.os == 'macos-latest'
       uses: actions/upload-artifact@v4
       with:
         name: macos-build
         path: dist/*.dmg
-    
+
     - name: Upload Linux artifacts
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v4
