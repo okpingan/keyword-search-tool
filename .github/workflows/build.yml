@@ -1,4 +1,4 @@
-name: Build Electron App
+name: Build Electron App (macOS only)
 
 on:
   push:
@@ -8,12 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+  build-macos:
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -25,41 +21,23 @@ jobs:
         node-version: '18'
         cache: 'npm'
 
+    - name: Debug Info
+      run: |
+        node -v
+        npm -v
+        echo "macOS build starting..."
+
     - name: Install dependencies
       run: npm install
 
-    - name: Build for Windows
-      if: matrix.os == 'windows-latest'
-      run: npx electron-builder --win
-
-    - name: Build for macOS
-      if: matrix.os == 'macos-latest'
+    - name: Build macOS App
       run: npx electron-builder --mac
-
-    - name: Build for Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: npx electron-builder --linux
 
     - name: Show dist contents
       run: ls -lah dist
 
-    - name: Upload Windows artifacts
-      if: matrix.os == 'windows-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-build
-        path: dist/*.exe
-
-    - name: Upload macOS artifacts
-      if: matrix.os == 'macos-latest'
+    - name: Upload macOS DMG
       uses: actions/upload-artifact@v4
       with:
         name: macos-build
         path: dist/*.dmg
-
-    - name: Upload Linux artifacts
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux-build
-        path: dist/*.AppImage
